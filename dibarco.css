@@ -131,7 +131,7 @@ body::after {
   margin-top: 10px;
 }
 .big-button {
-  width: 30%;
+  width: 40%;
   margin-left: 10px;
   background-color: #912f32;
   padding: 0.7rem 1rem;
@@ -141,12 +141,20 @@ body::after {
   position: relative;
 }
 .dropdown {
-  width: calc(30% + 32px);
+  width: calc(40% + 32px);
   margin-left: 10px;
   background-color: hsl(358, 51%, 28%);
   position: absolute;
   overflow: hidden;
   transition: max-height 0.15s ease-in-out;
+}
+@media (min-width: 1600px) {
+  .big-button{
+    width: 30%;
+  }
+  .dropdown{
+    width: calc(30% + 32px);
+  }
 }
 .dropdown.active {
   max-height: var(--height) !important;

@@ -184,6 +184,7 @@
                     }
 
                     document.querySelector(".modal").classList.toggle("active");
+                    setDisable(false);
                 })
                 .catch(err => {
                     createToast("Terjadi kesalahan saat mengirim data.");
