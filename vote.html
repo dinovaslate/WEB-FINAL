@@ -54,8 +54,12 @@
                             <div class="right">&#x25BC;</div>
                         </div>
                         <div class="dropdown" id="dd1">
-                            <div class="dropdown-item">Muhammad Farhat Afian Royyan</div>
-                            <div class="dropdown-item">Andi Gamal</div>
+                            <div class="dropdown-item">
+                                Muhammad Farhat Afian Royyan <a class="dot-space">•</a> Claudia Biru Arianto
+                            </div>
+                            <div class="dropdown-item">
+                                Andi Gamal Farabi Harits <a class="dot-space">•</a> Kyla Angeline
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,7 +125,7 @@
         let selection = null;
         document.querySelectorAll(".dropdown-item").forEach((item, i) => {
             item.addEventListener("click", (e) => {
-                selection = i;
+                selection = i + 1;
                 document.querySelector(".big-button .left").innerText = e.target.innerText;
                 document.querySelector("#action").classList.remove("active");
                 document.querySelector("#dd1").classList.remove("active");
@@ -162,7 +166,7 @@
             if (disabled) return;
             setDisable(true);
 
-            fetch("http://192.168.1.170:3000/vote", {
+            fetch(`http://${location.hostname}:3000/vote`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -171,7 +175,8 @@
                 body: JSON.stringify({
                     nis: nis.value,
                     name: name.value,
-                    vote: selection
+                    vote: selection,
+                    context: "mpk"
                 })
             })
                 .then(async res => {
@@ -184,6 +189,10 @@
                     }
 
                     document.querySelector(".modal").classList.toggle("active");
+                    nis.value = "";
+                    name.value = "";
+                    document.querySelector(".big-button .left").innerText = "Pilih Peserta";
+                    selection = null;
                     setDisable(false);
                 })
                 .catch(err => {
