@@ -87,16 +87,7 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-}
-.headline > h1 {
   font-family: 'Bebas Neue';
-  font-size: 6em;
-  line-height: 0;
-}
-.headline > p {
-  font-family: 'Bebas Neue';
-  margin-top: -20px;
-  margin-left: 10px;
 }
 .footer {
   position: absolute;
@@ -242,4 +233,7 @@ body::after {
 }
 #dd1{
   box-sizing: border-box;
+}
+.dropdown-link {
+  display: contents;
 }

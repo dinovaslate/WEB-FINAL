@@ -32,7 +32,7 @@
         </div>
         <div class="card">
             <div class="card-title">Moonzher Evote
-                <div class="card-subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, optio.
+                <div class="card-subtitle">Selamat datang, mohon masukkan NIS dan nama lengkap.
                 </div>
             </div>
             <div class="field">
@@ -145,6 +145,8 @@
                 localStorage.removeItem("displayName");
                 window.location.reload();
             });
+        } else {
+            location.href = "/login.html?w=1";
         }
 
         const nis = document.querySelector("#nis-input");
@@ -152,10 +154,10 @@
 
         const submitBtn = document.querySelector("#submit");
         submitBtn.addEventListener("click", e => {
-            if (nis.value.length !== 9 || isNaN(nis.value)) {
-                createToast("NIS Tidak Valid. NIS harus berupa angka dan 9 digit");
+            if (!nis.value.length || isNaN(nis.value)) {
+                createToast("NIS Tidak Valid. NIS harus berupa angka");
                 return;
-            } else if (name.value.length < 3) {
+            } else if (!name.value.length) {
                 createToast("Nama Tidak Valid");
                 return;
             } else if (selection === null) {

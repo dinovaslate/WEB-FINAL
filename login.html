@@ -13,7 +13,7 @@
     <div class="content">
         <div class="card">
             <div class="card-title">Selamat Datang
-                 <div class="card-subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, optio.</div>
+                 <div class="card-subtitle">Silahkan masukkan username dan password anda.</div>
             </div>
            
             <div class="field">
@@ -50,7 +50,7 @@
         })
 
         const toastContainer = document.querySelector(".toasts");
-        function createToast(text) {
+        function createToast(text, duration = 2000) {
             const toast = document.createElement("div");
             toast.classList.add("toast");
             toast.innerText = text;
@@ -61,11 +61,15 @@
                     easing: "ease-in-out",
                     duration: 200
                 })
-            }, 2000)
+            }, duration)
             setTimeout(() => {
                 toastContainer.removeChild(toast);
-            }, 2300);
+            }, duration + 300);
         }
+
+        const query = new URLSearchParams(location.search);
+        if (+query.get("w")) 
+            createToast("Anda harus login sebelum memilih. Silahkan minta admin untuk login.", 5000);
 
         let disabled = false;
         function setDisable(state) {
