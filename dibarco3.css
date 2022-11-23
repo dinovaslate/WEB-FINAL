@@ -13,7 +13,6 @@ body {
   align-items: center;
 }
 
-
 body::after {
   content: '';
   display: block;
@@ -352,7 +351,7 @@ box-sizing: border-box;
   inset: 50% auto auto 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.861);
-  opacity: 0;
+  visibility: hidden;
   font-family: 'Bebas Neue';
   padding: 2rem 6rem;
   display: flex;
@@ -364,7 +363,7 @@ box-sizing: border-box;
   transition: 200ms ease-in-out;
 }
 .modal.active{
-  opacity: 1;
+  visibility: visible;
 }
 .modal + .backdrop{
   content: '';

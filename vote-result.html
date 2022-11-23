@@ -5,42 +5,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="dibarco.css" />
-    <link rel="stylesheet" href="dibarco4.css" />
+    <link rel="stylesheet" href="dibarco3.css" />
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   </head>
   <body>
-    <div class="content">
-      <div class="navbar">
-        <div class="logo">
-          moonzher
-        </div>
-        <div id="login-info" style="position: relative">
-          <a href="/login.html" class="account">Login</a>
-        </div>
-      </div>
-      <div class="headline">
-        <canvas id="graph" width="100" height="100"></canvas>
-        <div class="graph-context">
-          <div>
-            <div class="color-box-1"></div>
-            <div>
-              <p>Muhammad Farhat Afian Royyan <a class="dot-space">•</a> Claudia Biru Arianto</p>
-              <p id="total-1">Total pemilih: ...</p>
+   <div class="content">
+        <div class="navbar">
+            <div class="logo">
+                moonzher
             </div>
-          </div>
-          <div>
-            <div class="color-box-2"></div>
-            <div>
-              <p>Andi Gamal Farabi Harits <a class="dot-space">•</a> Kyla Angeline</p>
-              <p id="total-2">Total pemilih: ...</p>
+            <div id="login-info" style="position: relative">
+                <a href="/login.html" class="account">Login</a>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="decorate"></div>
+        <div class="card">
+           <div id="piechart" style="width: 800px; height: 400px;"></div>
+        </div>
     </div>
     <div class="art"></div>
     <div class="footer">&copy; MACH</div>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      async function drawChart() {
+        let json;
+        await fetch(`http://${location.hostname}:3000/vote-percentage`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }).then(async res => {
+          json = await res.json();
+          if (!res.ok) {
+              context.innerHTML = `${json.message}. Kamu akan di-alihkan ke halaman utama dalam 5 detik.`;
+              setTimeout(() => location.href = "/", 5000);
+              return;
+            }
+        })
+        console.log(json);
+        var data = google.visualization.arrayToDataTable([
+          ['Paslon', 'Pemilih'],
+          ["Qivlan-Anabell", (json["1"] || { total: 0 }).total],
+          ["Naila-Adyo", (json["2"] || { total: 0 }).total]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
     <script>
         document.querySelector(".logo").addEventListener("click", (e) => {
             window.location = "/";
@@ -51,7 +69,6 @@
         if (!token || !displayName) {
             location.href = "/";
         }
-
         document.querySelector("#login-info").innerHTML = `
           <div class="account">${displayName}</div>
           <div id="logout" class="account logout">Logout</div>
@@ -62,46 +79,6 @@
           localStorage.removeItem("displayName");
           window.location.reload();
         });
-
-        const context = document.querySelector(".graph-context");
-
-        fetch(`http://${location.hostname}:3000/vote-percentage`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-          .then(async res => {
-            const json = await res.json();
-            if (!res.ok) {
-              context.innerHTML = `${json.message}. Kamu akan di-alihkan ke halaman utama dalam 5 detik.`;
-              setTimeout(() => location.href = "/", 5000);
-              return;
-            }
-
-            document.querySelector("#total-1").innerHTML = `Total pemilih: ${(json["1"] || { total: 0 }).total}`;
-            document.querySelector("#total-2").innerHTML = `Total pemilih: ${(json["2"] || { total: 0 }).total}`;
-
-            const ctx = document.querySelector("#graph").getContext("2d");
-            const colors = {
-              "1": "#1bb35d",
-              "2": "#21b3b8"
-            };
-            let curr = 0;
-
-            for (const k in json) {
-              const val = json[k];
-              let portionAngle = (val.percentage / 100) * 2 * Math.PI;
-
-              ctx.beginPath();
-              ctx.arc(100, 100, 100, curr, curr + portionAngle);
-              curr += portionAngle;
-              ctx.lineTo(100, 100);
-
-              ctx.fillStyle = colors[k];
-              ctx.fill();
-            }
-          });
     </script>
   </body>
 </html>

@@ -55,10 +55,10 @@
                         </div>
                         <div class="dropdown" id="dd1">
                             <div class="dropdown-item">
-                                Muhammad Farhat Afian Royyan <a class="dot-space">•</a> Claudia Biru Arianto
+                                Qivlan Dinandhya Putra <a class="dot-space">•</a> Anabell Praditya
                             </div>
                             <div class="dropdown-item">
-                                Andi Gamal Farabi Harits <a class="dot-space">•</a> Kyla Angeline
+                                Naila Rafa Nurahmah <a class="dot-space">•</a> Adyo Benedicto Senobua
                             </div>
                         </div>
                     </div>
@@ -86,6 +86,7 @@
             .style.setProperty('--height', `${height}px`);
         document.querySelector('#dd1').style.setProperty('max-height', 0);
         document.querySelector('#action').addEventListener('click', (e) => {
+            console.log("emit")
             if (e.currentTarget.contains(e.target))
                 document.querySelector('#dd1').classList.toggle('active');
             e.currentTarget.classList.toggle('active');
@@ -120,6 +121,18 @@
             disabled = state;
             document.querySelector("#submit").disabled = state;
             document.querySelector("#submit").innerText = state ? "Loading..." : "Submit";
+        }
+
+        const mpk = +(new URLSearchParams(location.search)).get("mpk");
+        if (mpk) {
+            document.querySelector("#dd1").innerHTML = `
+            <div class="dropdown-item">
+                Muhammad Farhat Afian Royyan <a class="dot-space">•</a> Claudia Biru Arianto
+            </div>
+            <div class="dropdown-item">
+                Andi Gamal Farabi Harits <a class="dot-space">•</a> Kyla Angeline
+            </div>
+            `
         }
 
         let selection = null;
@@ -178,7 +191,7 @@
                     nis: nis.value,
                     name: name.value,
                     vote: selection,
-                    context: "mpk"
+                    context: mpk ? "mpk" : "osis"
                 })
             })
                 .then(async res => {

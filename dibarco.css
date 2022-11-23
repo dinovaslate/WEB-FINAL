@@ -89,6 +89,16 @@ body::after {
   gap: 0.8rem;
   font-family: 'Bebas Neue';
 }
+.headline > h1 {
+  font-family: 'Bebas Neue';
+  font-size: 6em;
+  line-height: 0;
+}
+.headline > p {
+  font-family: 'Bebas Neue';
+  margin-top: -20px;
+  margin-left: 10px;
+}
 .footer {
   position: absolute;
   inset: auto 0 0 0;
